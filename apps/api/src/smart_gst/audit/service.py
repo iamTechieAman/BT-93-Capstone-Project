@@ -5,7 +5,7 @@ Audit Service for Log Querying and CSV/JSON Export Generation.
 import csv
 import io
 import json
-from typing import List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from smart_gst.audit.repository import AuditRepository
 from smart_gst.audit.schemas import AuditLogResponse
@@ -17,19 +17,7 @@ class AuditService:
 
     def get_logs(self, limit: int = 50, offset: int = 0) -> Tuple[List[AuditLogResponse], int]:
         logs, total = self.audit_repo.list_logs(limit=limit, offset=offset)
-        res = [
-            AuditLogResponse(
-                id=entry.id,
-                action=entry.action,
-                resource=entry.resource,
-                role=entry.role,
-                user_id=entry.user_id,
-                input_data=entry.input_data,
-                output_data=entry.output_data,
-                timestamp=entry.timestamp.isoformat() if entry.timestamp else "",
-            )
-            for entry in logs
-        ]
+        res = [AuditLogResponse.model_validate(entry) for entry in logs]
         return res, total
 
     def export_csv(self) -> str:
@@ -77,10 +65,10 @@ class AuditService:
         resource: str,
         role: str = "USER",
         user_id: str = "system",
-        input_data: dict = None,
-        output_data: dict = None,
-        **kwargs,
-    ):
+        input_data: Optional[Dict[str, Any]] = None,
+        output_data: Optional[Dict[str, Any]] = None,
+        **kwargs: Any,
+    ) -> Any:
         return self.audit_repo.log_action(
             action=action,
             resource=resource,
