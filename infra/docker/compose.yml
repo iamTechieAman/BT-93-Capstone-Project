@@ -1,0 +1,27 @@
+services:
+  api:
+    build:
+      context: ../../apps/api
+      dockerfile: ../../infra/docker/api.Dockerfile
+    container_name: smart_gst_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:////app/data/smart_gst.db
+      - ENVIRONMENT=production
+      - JWT_SECRET_KEY=production_jwt_secret_key_change_me
+    volumes:
+      - gst_db_data:/app/data
+
+  web:
+    build:
+      context: ../../
+      dockerfile: infra/docker/web.Dockerfile
+    container_name: smart_gst_web
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+volumes:
+  gst_db_data:

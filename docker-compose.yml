@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # PostgreSQL 16 with pgvector extension for Hybrid Vector Search
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: smart_gst_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-smart_gst_db}
+      POSTGRES_USER: ${POSTGRES_USER:-smart_gst_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/app/db/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-smart_gst_user} -d ${POSTGRES_DB:-smart_gst_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Neo4j 5 Community Graph Database for Knowledge Graph Reasoning
+  neo4j:
+    image: neo4j:5-community
+    container_name: smart_gst_neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-password123}
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474" # HTTP Browser
+      - "7687:7687" # Bolt Protocol
+    volumes:
+      - neo4jdata:/data
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "${NEO4J_USER:-neo4j}", "-p", "${NEO4J_PASSWORD:-password123}", "MATCH () RETURN count(*)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Multi-Agent Backend Server
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart_gst_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-smart_gst_db}
+      - POSTGRES_USER=${POSTGRES_USER:-smart_gst_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgrespassword}
+      - NEO4J_URI=bolt://neo4j:7687
+      - NEO4J_USER=${NEO4J_USER:-neo4j}
+      - NEO4J_PASSWORD=${NEO4J_PASSWORD:-password123}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - SECRET_KEY=${SECRET_KEY:-smart_gst_secret_key_2026_capstone}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:5173}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+
+  # React + Vite Frontend Nginx Reverse Proxy
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: smart_gst_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  pgdata:
+  neo4jdata:
