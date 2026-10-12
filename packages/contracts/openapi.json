@@ -1,0 +1,2526 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Smart GST API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Get Current User",
+        "operationId": "get_current_user_api_v1_auth_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Logout",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/classify": {
+      "post": {
+        "tags": [
+          "HSN Classification"
+        ],
+        "summary": "Classify Product",
+        "operationId": "classify_product_api_v1_classify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassificationResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invoices": {
+      "post": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Create Invoice",
+        "operationId": "create_invoice_api_v1_invoices_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvoiceCreatePayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "List Invoices",
+        "operationId": "list_invoices_api_v1_invoices_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InvoiceResponse"
+                  },
+                  "title": "Response List Invoices Api V1 Invoices Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/invoices/{invoice_id_or_number}": {
+      "get": {
+        "tags": [
+          "Invoices"
+        ],
+        "summary": "Get Invoice",
+        "operationId": "get_invoice_api_v1_invoices__invoice_id_or_number__get",
+        "parameters": [
+          {
+            "name": "invoice_id_or_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Invoice ID or Invoice Number",
+              "title": "Invoice Id Or Number"
+            },
+            "description": "Invoice ID or Invoice Number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvoiceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/gstin/verify": {
+      "post": {
+        "tags": [
+          "GSTIN Verification"
+        ],
+        "summary": "Verify Gstin Post",
+        "operationId": "verify_gstin_post_api_v1_gstin_verify_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GstinVerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GstinVerifyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/gstin/{gstin}": {
+      "get": {
+        "tags": [
+          "GSTIN Verification"
+        ],
+        "summary": "Verify Gstin",
+        "operationId": "verify_gstin_api_v1_gstin__gstin__get",
+        "parameters": [
+          {
+            "name": "gstin",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Gstin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GstinVerifyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rates/search": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Rate Rules",
+        "operationId": "get_rate_rules_api_v1_rates_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RateRuleResponse"
+                  },
+                  "title": "Response Get Rate Rules Api V1 Rates Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rates": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Rate Rules",
+        "operationId": "get_rate_rules_api_v1_rates_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RateRuleResponse"
+                  },
+                  "title": "Response Get Rate Rules Api V1 Rates Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Rate Rules",
+        "operationId": "get_rate_rules_api_v1_rules_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RateRuleResponse"
+                  },
+                  "title": "Response Get Rate Rules Api V1 Rules Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules/search": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Search Rate Rules",
+        "operationId": "search_rate_rules_api_v1_rules_search_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RateRuleResponse"
+                  },
+                  "title": "Response Search Rate Rules Api V1 Rules Search Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rates/hsn/{hsn_code}": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Rule By Hsn",
+        "operationId": "get_rule_by_hsn_api_v1_rates_hsn__hsn_code__get",
+        "parameters": [
+          {
+            "name": "hsn_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 10,
+              "title": "Hsn Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateRuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules/hsn/{hsn_code}": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Rule By Hsn",
+        "operationId": "get_rule_by_hsn_api_v1_rules_hsn__hsn_code__get",
+        "parameters": [
+          {
+            "name": "hsn_code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 10,
+              "title": "Hsn Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateRuleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rates/hierarchy/{code}": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Hierarchy Chain",
+        "operationId": "get_hierarchy_chain_api_v1_rates_hierarchy__code__get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 10,
+              "title": "Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HierarchyNodeResponse"
+                  },
+                  "title": "Response Get Hierarchy Chain Api V1 Rates Hierarchy  Code  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules/hierarchy/{code}": {
+      "get": {
+        "tags": [
+          "Rate Rules & Schedules"
+        ],
+        "summary": "Get Hierarchy Chain",
+        "operationId": "get_hierarchy_chain_api_v1_rules_hierarchy__code__get",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 10,
+              "title": "Code"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HierarchyNodeResponse"
+                  },
+                  "title": "Response Get Hierarchy Chain Api V1 Rules Hierarchy  Code  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit/logs": {
+      "get": {
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "Get Audit Logs",
+        "operationId": "get_audit_logs_api_v1_audit_logs_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLogResponse"
+                  },
+                  "title": "Response Get Audit Logs Api V1 Audit Logs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/audit/export/csv": {
+      "get": {
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "Export Logs Csv",
+        "operationId": "export_logs_csv_api_v1_audit_export_csv_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/audit/export/json": {
+      "get": {
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "Export Logs Json",
+        "operationId": "export_logs_json_api_v1_audit_export_json_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/audit/logs/export": {
+      "get": {
+        "tags": [
+          "Audit Logs"
+        ],
+        "summary": "Export Logs",
+        "operationId": "export_logs_api_v1_audit_logs_export_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(json|csv)$",
+              "default": "json",
+              "title": "Format"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingestion/documents": {
+      "get": {
+        "tags": [
+          "Source Ingestion"
+        ],
+        "summary": "List Documents",
+        "operationId": "list_documents_api_v1_ingestion_documents_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationDocumentResponse"
+                  },
+                  "title": "Response List Documents Api V1 Ingestion Documents Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/ingestion/approve/{notification_no}": {
+      "post": {
+        "tags": [
+          "Source Ingestion"
+        ],
+        "summary": "Approve Notification",
+        "operationId": "approve_notification_api_v1_ingestion_approve__notification_no__post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "notification_no",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Notification No"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalPayload",
+                "default": {
+                  "status": "APPROVED"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationDocumentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/metrics": {
+      "get": {
+        "tags": [
+          "Admin & Governance"
+        ],
+        "summary": "Get Admin Metrics",
+        "operationId": "get_admin_metrics_api_v1_admin_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/admin/sync/status": {
+      "get": {
+        "tags": [
+          "Admin & Governance"
+        ],
+        "summary": "Get Sync Status",
+        "operationId": "get_sync_status_api_v1_admin_sync_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/sync/trigger": {
+      "post": {
+        "tags": [
+          "Admin & Governance"
+        ],
+        "summary": "Trigger Sync",
+        "operationId": "trigger_sync_api_v1_admin_sync_trigger_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/cache/clear": {
+      "post": {
+        "tags": [
+          "Admin & Governance"
+        ],
+        "summary": "Clear System Cache",
+        "operationId": "clear_system_cache_api_v1_admin_cache_clear_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/healthz": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Health Check",
+        "operationId": "health_check_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApprovalPayload": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "APPROVED"
+          },
+          "reviewer_notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewer Notes"
+          }
+        },
+        "type": "object",
+        "title": "ApprovalPayload"
+      },
+      "AuditLogResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "resource": {
+            "type": "string",
+            "title": "Resource"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "input_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Input Data"
+          },
+          "output_data": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Output Data"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "action",
+          "resource",
+          "role",
+          "user_id",
+          "timestamp"
+        ],
+        "title": "AuditLogResponse"
+      },
+      "CandidateAlternative": {
+        "properties": {
+          "hsn_code": {
+            "type": "string",
+            "title": "Hsn Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "score": {
+            "type": "number",
+            "title": "Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hsn_code",
+          "description",
+          "score"
+        ],
+        "title": "CandidateAlternative"
+      },
+      "ClassificationRequest": {
+        "properties": {
+          "product_description": {
+            "type": "string",
+            "minLength": 2,
+            "title": "Product Description",
+            "description": "Product description or query text"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "INTRA_STATE",
+              "INTER_STATE"
+            ],
+            "title": "Mode",
+            "default": "INTRA_STATE"
+          },
+          "invoice_date": {
+            "type": "string",
+            "title": "Invoice Date",
+            "default": "2026-10-09"
+          },
+          "attributes": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attributes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_description"
+        ],
+        "title": "ClassificationRequest"
+      },
+      "ClassificationResult": {
+        "properties": {
+          "product_description": {
+            "type": "string",
+            "title": "Product Description"
+          },
+          "suggested_hsn": {
+            "type": "string",
+            "title": "Suggested Hsn"
+          },
+          "hsn_description": {
+            "type": "string",
+            "title": "Hsn Description"
+          },
+          "chapter": {
+            "type": "string",
+            "title": "Chapter"
+          },
+          "heading": {
+            "type": "string",
+            "title": "Heading"
+          },
+          "gst_rate": {
+            "type": "number",
+            "title": "Gst Rate"
+          },
+          "effective_rate_text": {
+            "type": "string",
+            "title": "Effective Rate Text"
+          },
+          "match_quality": {
+            "type": "string",
+            "enum": [
+              "Strong",
+              "Moderate",
+              "Weak"
+            ],
+            "title": "Match Quality"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Matched",
+              "Needs review"
+            ],
+            "title": "Status"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "signals": {
+            "$ref": "#/components/schemas/SignalBreakdown"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceEvidence"
+            },
+            "type": "array",
+            "title": "Sources",
+            "default": []
+          },
+          "alternatives_considered": {
+            "items": {
+              "$ref": "#/components/schemas/CandidateAlternative"
+            },
+            "type": "array",
+            "title": "Alternatives Considered",
+            "default": []
+          },
+          "reasoning_summary": {
+            "type": "string",
+            "title": "Reasoning Summary"
+          },
+          "evaluation_factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evaluation Factors",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_description",
+          "suggested_hsn",
+          "hsn_description",
+          "chapter",
+          "heading",
+          "gst_rate",
+          "effective_rate_text",
+          "match_quality",
+          "status",
+          "confidence",
+          "signals",
+          "reasoning_summary"
+        ],
+        "title": "ClassificationResult"
+      },
+      "GstinVerifyRequest": {
+        "properties": {
+          "gstin": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Gstin"
+          }
+        },
+        "type": "object",
+        "required": [
+          "gstin"
+        ],
+        "title": "GstinVerifyRequest"
+      },
+      "GstinVerifyResponse": {
+        "properties": {
+          "gstin": {
+            "type": "string",
+            "title": "Gstin"
+          },
+          "masked_gstin": {
+            "type": "string",
+            "title": "Masked Gstin"
+          },
+          "format_valid": {
+            "type": "boolean",
+            "title": "Format Valid"
+          },
+          "structural_valid": {
+            "type": "boolean",
+            "title": "Structural Valid"
+          },
+          "checksum_valid": {
+            "type": "boolean",
+            "title": "Checksum Valid"
+          },
+          "registration_verified": {
+            "type": "boolean",
+            "title": "Registration Verified"
+          },
+          "taxpayer_status": {
+            "type": "string",
+            "title": "Taxpayer Status"
+          },
+          "headline": {
+            "type": "string",
+            "title": "Headline"
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": [
+              "PASSED",
+              "FAILED",
+              "SKIPPED",
+              "REQUIRES_REVIEW",
+              "VALID",
+              "INVALID"
+            ],
+            "title": "Verification Status"
+          },
+          "state_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State Code"
+          },
+          "state_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State Name"
+          },
+          "pan": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pan"
+          },
+          "legal_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Legal Name"
+          },
+          "trade_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trade Name"
+          },
+          "registration_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Registration Date"
+          },
+          "constitution": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Constitution"
+          },
+          "jurisdiction": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Jurisdiction"
+          },
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address"
+          },
+          "provider_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Provider Name"
+          },
+          "fetched_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fetched At"
+          },
+          "cached": {
+            "type": "boolean",
+            "title": "Cached",
+            "default": false
+          },
+          "validation_failures": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Validation Failures",
+            "default": []
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/StepStatus"
+            },
+            "type": "array",
+            "title": "Steps",
+            "default": []
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings",
+            "default": []
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "latency_ms": {
+            "type": "number",
+            "title": "Latency Ms",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "gstin",
+          "masked_gstin",
+          "format_valid",
+          "structural_valid",
+          "checksum_valid",
+          "registration_verified",
+          "taxpayer_status",
+          "headline",
+          "verification_status"
+        ],
+        "title": "GstinVerifyResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HierarchyNodeResponse": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "conditions": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conditions"
+          },
+          "evaluation_factors": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Factors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "level",
+          "title"
+        ],
+        "title": "HierarchyNodeResponse"
+      },
+      "InvoiceCreatePayload": {
+        "properties": {
+          "invoice_number": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Invoice Number"
+          },
+          "invoice_date": {
+            "type": "string",
+            "title": "Invoice Date",
+            "default": "2026-10-09"
+          },
+          "supplier_gstin": {
+            "type": "string",
+            "maxLength": 15,
+            "minLength": 15,
+            "title": "Supplier Gstin"
+          },
+          "buyer_gstin": {
+            "type": "string",
+            "maxLength": 15,
+            "minLength": 15,
+            "title": "Buyer Gstin"
+          },
+          "place_of_supply": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Place Of Supply"
+          },
+          "line_items": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceLineItemInput"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Line Items"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "invoice_number",
+          "supplier_gstin",
+          "buyer_gstin",
+          "line_items"
+        ],
+        "title": "InvoiceCreatePayload"
+      },
+      "InvoiceItemResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "product_name": {
+            "type": "string",
+            "title": "Product Name"
+          },
+          "hsn_code": {
+            "type": "string",
+            "title": "Hsn Code"
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity"
+          },
+          "unit_price": {
+            "type": "number",
+            "title": "Unit Price"
+          },
+          "taxable_value": {
+            "type": "number",
+            "title": "Taxable Value"
+          },
+          "gst_rate": {
+            "type": "number",
+            "title": "Gst Rate"
+          },
+          "cgst_amount": {
+            "type": "number",
+            "title": "Cgst Amount"
+          },
+          "sgst_amount": {
+            "type": "number",
+            "title": "Sgst Amount"
+          },
+          "igst_amount": {
+            "type": "number",
+            "title": "Igst Amount"
+          },
+          "cess_amount": {
+            "type": "number",
+            "title": "Cess Amount"
+          },
+          "item_total": {
+            "type": "number",
+            "title": "Item Total"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "product_name",
+          "hsn_code",
+          "quantity",
+          "unit_price",
+          "taxable_value",
+          "gst_rate",
+          "cgst_amount",
+          "sgst_amount",
+          "igst_amount",
+          "cess_amount",
+          "item_total"
+        ],
+        "title": "InvoiceItemResponse"
+      },
+      "InvoiceLineItemInput": {
+        "properties": {
+          "product_name": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Product Name"
+          },
+          "hsn_code": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 2,
+            "title": "Hsn Code"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Quantity",
+            "default": 1
+          },
+          "unit_price": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Unit Price"
+          },
+          "gst_rate": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Gst Rate"
+          },
+          "cess_rate": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Cess Rate",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "product_name",
+          "hsn_code",
+          "unit_price",
+          "gst_rate"
+        ],
+        "title": "InvoiceLineItemInput"
+      },
+      "InvoiceResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "invoice_number": {
+            "type": "string",
+            "title": "Invoice Number"
+          },
+          "invoice_date": {
+            "type": "string",
+            "title": "Invoice Date"
+          },
+          "supplier_gstin": {
+            "type": "string",
+            "title": "Supplier Gstin"
+          },
+          "buyer_gstin": {
+            "type": "string",
+            "title": "Buyer Gstin"
+          },
+          "place_of_supply": {
+            "type": "string",
+            "title": "Place Of Supply"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "subtotal": {
+            "type": "number",
+            "title": "Subtotal"
+          },
+          "cgst_total": {
+            "type": "number",
+            "title": "Cgst Total"
+          },
+          "sgst_total": {
+            "type": "number",
+            "title": "Sgst Total"
+          },
+          "igst_total": {
+            "type": "number",
+            "title": "Igst Total"
+          },
+          "cess_total": {
+            "type": "number",
+            "title": "Cess Total"
+          },
+          "grand_total": {
+            "type": "number",
+            "title": "Grand Total"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/InvoiceItemResponse"
+            },
+            "type": "array",
+            "title": "Items",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "invoice_number",
+          "invoice_date",
+          "supplier_gstin",
+          "buyer_gstin",
+          "place_of_supply",
+          "status",
+          "subtotal",
+          "cgst_total",
+          "sgst_total",
+          "igst_total",
+          "cess_total",
+          "grand_total"
+        ],
+        "title": "InvoiceResponse"
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "title": "Password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "NotificationDocumentResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "notification_no": {
+            "type": "string",
+            "title": "Notification No"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          },
+          "sha256_hash": {
+            "type": "string",
+            "title": "Sha256 Hash"
+          },
+          "page_count": {
+            "type": "integer",
+            "title": "Page Count"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "supersedes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supersedes"
+          },
+          "fetched_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "title": "Fetched At"
+          },
+          "metadata_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata Json"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "notification_no",
+          "title",
+          "category",
+          "url",
+          "sha256_hash",
+          "page_count",
+          "status",
+          "fetched_at"
+        ],
+        "title": "NotificationDocumentResponse"
+      },
+      "RateRuleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "hsn_code": {
+            "type": "string",
+            "title": "Hsn Code"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "rate": {
+            "type": "number",
+            "title": "Rate"
+          },
+          "schedule": {
+            "type": "string",
+            "title": "Schedule"
+          },
+          "serial_no": {
+            "type": "string",
+            "title": "Serial No"
+          },
+          "notification_no": {
+            "type": "string",
+            "title": "Notification No"
+          },
+          "notification_date": {
+            "type": "string",
+            "title": "Notification Date"
+          },
+          "effective_from": {
+            "type": "string",
+            "title": "Effective From"
+          },
+          "effective_to": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effective To"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "hsn_code",
+          "description",
+          "rate",
+          "schedule",
+          "serial_no",
+          "notification_no",
+          "notification_date",
+          "effective_from",
+          "source_url"
+        ],
+        "title": "RateRuleResponse"
+      },
+      "SignalBreakdown": {
+        "properties": {
+          "keyword_match_score": {
+            "type": "number",
+            "title": "Keyword Match Score",
+            "description": "TF-IDF keyword score 0-100"
+          },
+          "vector_similarity_score": {
+            "type": "number",
+            "title": "Vector Similarity Score",
+            "description": "Vector embedding cosine similarity 0-100"
+          },
+          "statutory_rule_match": {
+            "type": "boolean",
+            "title": "Statutory Rule Match",
+            "description": "Whether exact schedule rule was identified"
+          },
+          "agreeing_sources_count": {
+            "type": "integer",
+            "title": "Agreeing Sources Count",
+            "description": "Count of distinct CBIC sources agreeing"
+          },
+          "missing_conditions_penalty": {
+            "type": "number",
+            "title": "Missing Conditions Penalty",
+            "description": "Penalty for unanswered conditional criteria"
+          },
+          "computed_raw_confidence": {
+            "type": "number",
+            "title": "Computed Raw Confidence",
+            "description": "Computed raw confidence score (0-100)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "keyword_match_score",
+          "vector_similarity_score",
+          "statutory_rule_match",
+          "agreeing_sources_count",
+          "missing_conditions_penalty",
+          "computed_raw_confidence"
+        ],
+        "title": "SignalBreakdown"
+      },
+      "SourceEvidence": {
+        "properties": {
+          "document": {
+            "type": "string",
+            "title": "Document"
+          },
+          "notification": {
+            "type": "string",
+            "title": "Notification"
+          },
+          "notification_date": {
+            "type": "string",
+            "title": "Notification Date"
+          },
+          "schedule": {
+            "type": "string",
+            "title": "Schedule"
+          },
+          "serial_no": {
+            "type": "string",
+            "title": "Serial No"
+          },
+          "effective_from": {
+            "type": "string",
+            "title": "Effective From"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "title": "Retrieved At"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document",
+          "notification",
+          "notification_date",
+          "schedule",
+          "serial_no",
+          "effective_from",
+          "retrieved_at",
+          "url"
+        ],
+        "title": "SourceEvidence"
+      },
+      "StepStatus": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "PASSED",
+              "FAILED",
+              "SKIPPED"
+            ],
+            "title": "State"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "state"
+        ],
+        "title": "StepStatus"
+      },
+      "TokenResponse": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "role",
+          "user"
+        ],
+        "title": "TokenResponse"
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "Email"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "email",
+          "role",
+          "is_active"
+        ],
+        "title": "UserResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
