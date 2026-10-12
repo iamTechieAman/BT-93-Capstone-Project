@@ -1,0 +1,79 @@
+{
+  "description": "Statutory GSTIN test vectors for Mod-36 checksum, state validation, and error detection",
+  "valid_vectors": [
+    {
+      "gstin": "29ABCDE1234F1ZW",
+      "state_code": "29",
+      "state_name": "Karnataka",
+      "pan": "ABCDE1234F",
+      "entity_code": "1",
+      "expected_checksum": "W"
+    },
+    {
+      "gstin": "27AABCU9603R1ZN",
+      "state_code": "27",
+      "state_name": "Maharashtra",
+      "pan": "AABCU9603R",
+      "entity_code": "1",
+      "expected_checksum": "N"
+    },
+    {
+      "gstin": "07AAAAA0000A1Z4",
+      "state_code": "07",
+      "state_name": "Delhi",
+      "pan": "AAAAA0000A",
+      "entity_code": "1",
+      "expected_checksum": "4"
+    },
+    {
+      "gstin": "33AAAAA0000A1Z9",
+      "state_code": "33",
+      "state_name": "Tamil Nadu",
+      "pan": "AAAAA0000A",
+      "entity_code": "1",
+      "expected_checksum": "9"
+    },
+    {
+      "gstin": "24AAAAA0000A1Z8",
+      "state_code": "24",
+      "state_name": "Gujarat",
+      "pan": "AAAAA0000A",
+      "entity_code": "1",
+      "expected_checksum": "8"
+    },
+    {
+      "gstin": "06AAAAA0000A1Z6",
+      "state_code": "06",
+      "state_name": "Haryana",
+      "pan": "AAAAA0000A",
+      "entity_code": "1",
+      "expected_checksum": "6"
+    },
+    {
+      "gstin": "97AAAAA0000A1ZV",
+      "state_code": "97",
+      "state_name": "Other Territory",
+      "pan": "AAAAA0000A",
+      "entity_code": "1",
+      "expected_checksum": "V"
+    }
+  ],
+  "invalid_vectors": [
+    {
+      "gstin": "29ABCDE1234F1ZX",
+      "expected_failure": "Modulus-36 checksum mismatch"
+    },
+    {
+      "gstin": "99ABCDE1234F1ZW",
+      "expected_failure": "Invalid state code"
+    },
+    {
+      "gstin": "29123451234F1ZW",
+      "expected_failure": "Invalid PAN pattern"
+    },
+    {
+      "gstin": "29ABCDE1234FAZW",
+      "expected_failure": "Invalid 14th character"
+    }
+  ]
+}
