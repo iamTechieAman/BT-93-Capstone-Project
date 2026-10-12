@@ -1,0 +1,76 @@
+# Smart GST Knowledge Graph GraphQL / Neo4j Schema Definition
+
+type Product {
+  product_id: ID!
+  name: String!
+  description: String
+  materials: [Material!]! @relationship(type: "MADE_OF", direction: OUT, properties: "EvidenceRel")
+  category: ItemCategory @relationship(type: "BELONGS_TO", direction: OUT, properties: "EvidenceRel")
+  hsn_code: HsnCode @relationship(type: "CLASSIFIED_UNDER", direction: OUT, properties: "EvidenceRel")
+}
+
+type Material {
+  material_id: ID!
+  name: String!
+  products: [Product!]! @relationship(type: "MADE_OF", direction: IN, properties: "EvidenceRel")
+}
+
+type ItemCategory {
+  category_id: ID!
+  name: String!
+  products: [Product!]! @relationship(type: "BELONGS_TO", direction: IN, properties: "EvidenceRel")
+}
+
+type HsnChapter {
+  chapter_code: ID!
+  title: String!
+  headings: [HsnHeading!]! @relationship(type: "CHAPTER_OF", direction: IN, properties: "EvidenceRel")
+}
+
+type HsnHeading {
+  heading_code: ID!
+  description: String!
+  chapter: HsnChapter! @relationship(type: "CHAPTER_OF", direction: OUT, properties: "EvidenceRel")
+  hsn_codes: [HsnCode!]! @relationship(type: "SUB_HEADING_OF", direction: IN, properties: "EvidenceRel")
+}
+
+type HsnCode {
+  code: ID!
+  technical_description: String!
+  trade_description: String
+  heading: HsnHeading! @relationship(type: "SUB_HEADING_OF", direction: OUT, properties: "EvidenceRel")
+  rules: [GstRule!]! @relationship(type: "GOVERNED_BY", direction: OUT, properties: "EvidenceRel")
+  sources: [SourceDocument!]! @relationship(type: "EVIDENCED_BY", direction: OUT, properties: "EvidenceRel")
+}
+
+type GstRule {
+  rule_id: ID!
+  rule_name: String!
+  conditions: String!
+  exceptions: String
+  rates: [GstRate!]! @relationship(type: "HAS_RATE", direction: OUT, properties: "EvidenceRel")
+  sources: [SourceDocument!]! @relationship(type: "EVIDENCED_BY", direction: OUT, properties: "EvidenceRel")
+}
+
+type GstRate {
+  rate_id: ID!
+  gst_rate: Float!
+  cgst_rate: Float!
+  sgst_rate: Float!
+  igst_rate: Float!
+  cess_rate: Float!
+}
+
+type SourceDocument {
+  document_id: ID!
+  notification_number: String!
+  title: String!
+  source_url: String
+  effective_from: String
+}
+
+interface EvidenceRel @relationshipProperties {
+  evidence_source: String!
+  validation_status: String!
+  confidence: Float
+}

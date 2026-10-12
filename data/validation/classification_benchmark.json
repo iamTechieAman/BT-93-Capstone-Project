@@ -1,0 +1,98 @@
+[
+  {
+    "query": "Men's biker style genuine bovine leather jacket with zipper",
+    "expected_code": "42031010",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "400W Monocrystalline solar PV panel module for rooftop power generation",
+    "expected_code": "85414011",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Bulk green unroasted coffee beans directly from organic coffee estate",
+    "expected_code": "09011110",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Dark roasted arabica coffee beans in sealed retail pack",
+    "expected_code": "09012100",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "100% combed cotton crew neck short sleeve t-shirt",
+    "expected_code": "61091000",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Woven cotton fabric casual men's jacket with button closure",
+    "expected_code": "62033200",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Windproof outdoor jacket made of 100% synthetic polyester fiber",
+    "expected_code": "62033300",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Rechargeable lithium-ion battery pack 48V for electric scooter",
+    "expected_code": "85076000",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Digital smartwatch with AMOLED touchscreen display and heart rate monitor",
+    "expected_code": "91021200",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "True wireless stereo bluetooth earbuds with charging case",
+    "expected_code": "85176290",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Women's designer handbag with outer surface of genuine leather",
+    "expected_code": "42022110",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "15.6 inch Intel i7 portable laptop computer with 16GB RAM",
+    "expected_code": "84713010",
+    "expected_type": "HSN",
+    "category": "Goods"
+  },
+  {
+    "query": "Management consulting and enterprise IT architecture strategy services",
+    "expected_code": "998311",
+    "expected_type": "SAC",
+    "category": "Services"
+  },
+  {
+    "query": "Custom IT software development, API integration, and maintenance services",
+    "expected_code": "998313",
+    "expected_type": "SAC",
+    "category": "Services"
+  },
+  {
+    "query": "Standalone restaurant food dining and non-alcoholic beverage supply",
+    "expected_code": "996311",
+    "expected_type": "SAC",
+    "category": "Services"
+  },
+  {
+    "query": "Legal advisory, contract drafting, and tribunal litigation representation services",
+    "expected_code": "998211",
+    "expected_type": "SAC",
+    "category": "Services"
+  }
+]

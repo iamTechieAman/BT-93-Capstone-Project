@@ -1,0 +1,135 @@
+{
+  "graph_name": "Smart GST Knowledge Graph",
+  "version": "2.0.0",
+  "node_types": [
+    {
+      "label": "Product",
+      "description": "Product instance or trade item description submitted for GST verification",
+      "properties": [
+        {"name": "product_id", "type": "STRING", "primary_key": true},
+        {"name": "name", "type": "STRING", "indexed": true},
+        {"name": "description", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "HSN",
+      "description": "8-digit canonical Harmonized System of Nomenclature code for Goods",
+      "properties": [
+        {"name": "code", "type": "STRING", "primary_key": true},
+        {"name": "technical_description", "type": "STRING"},
+        {"name": "trade_description", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "SAC",
+      "description": "6-digit Services Accounting Code for Services",
+      "properties": [
+        {"name": "code", "type": "STRING", "primary_key": true},
+        {"name": "description", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Chapter",
+      "description": "2-digit Harmonized System Chapter",
+      "properties": [
+        {"name": "chapter_code", "type": "STRING", "primary_key": true},
+        {"name": "title", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Heading",
+      "description": "4-digit Harmonized System Heading",
+      "properties": [
+        {"name": "heading_code", "type": "STRING", "primary_key": true},
+        {"name": "description", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Subheading",
+      "description": "6-digit Harmonized System Subheading",
+      "properties": [
+        {"name": "subheading_code", "type": "STRING", "primary_key": true},
+        {"name": "description", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Material",
+      "description": "Raw material composition (e.g. Leather, Cotton, Silicon)",
+      "properties": [
+        {"name": "material_id", "type": "STRING", "primary_key": true},
+        {"name": "name", "type": "STRING", "indexed": true}
+      ]
+    },
+    {
+      "label": "Category",
+      "description": "Functional product or service category",
+      "properties": [
+        {"name": "category_id", "type": "STRING", "primary_key": true},
+        {"name": "name", "type": "STRING", "indexed": true}
+      ]
+    },
+    {
+      "label": "GST_Rate",
+      "description": "Statutory tax rate schedule (CGST, SGST, IGST, Cess)",
+      "properties": [
+        {"name": "rate_id", "type": "STRING", "primary_key": true},
+        {"name": "gst_rate", "type": "FLOAT"},
+        {"name": "cgst_rate", "type": "FLOAT"},
+        {"name": "sgst_rate", "type": "FLOAT"},
+        {"name": "igst_rate", "type": "FLOAT"},
+        {"name": "cess_rate", "type": "FLOAT"}
+      ]
+    },
+    {
+      "label": "GST_Rule",
+      "description": "Statutory tax rule clause or exemption schedule entry",
+      "properties": [
+        {"name": "rule_id", "type": "STRING", "primary_key": true},
+        {"name": "rule_name", "type": "STRING"},
+        {"name": "conditions", "type": "STRING"},
+        {"name": "exceptions", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Notification",
+      "description": "Official CBIC tax notification",
+      "properties": [
+        {"name": "notification_id", "type": "STRING", "primary_key": true},
+        {"name": "notification_number", "type": "STRING", "indexed": true},
+        {"name": "title", "type": "STRING"},
+        {"name": "effective_from", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Condition",
+      "description": "Specific tax applicability condition or price threshold clause",
+      "properties": [
+        {"name": "condition_id", "type": "STRING", "primary_key": true},
+        {"name": "condition_text", "type": "STRING"}
+      ]
+    },
+    {
+      "label": "Source",
+      "description": "Authoritative CBIC source publisher or document provenance",
+      "properties": [
+        {"name": "source_id", "type": "STRING", "primary_key": true},
+        {"name": "publisher", "type": "STRING"},
+        {"name": "document_url", "type": "STRING"}
+      ]
+    }
+  ],
+  "relationship_types": [
+    {"type": "PRODUCT_HAS_ATTRIBUTE", "source_node": "Product", "target_node": "Material", "provenance": "Product Catalog Spec"},
+    {"type": "PRODUCT_CANDIDATE_HSN", "source_node": "Product", "target_node": "HSN", "provenance": "Classification Engine"},
+    {"type": "HSN_CHILD_OF", "source_node": "Subheading", "target_node": "Heading", "provenance": "CBIC HSN Tariff Master"},
+    {"type": "HSN_BELONGS_TO_CHAPTER", "source_node": "Heading", "target_node": "Chapter", "provenance": "CBIC HSN Tariff Master"},
+    {"type": "HSN_APPLIES_TO_CATEGORY", "source_node": "HSN", "target_node": "Category", "provenance": "CBIC HSN Tariff Master"},
+    {"type": "HSN_REQUIRES_CONDITION", "source_node": "HSN", "target_node": "Condition", "provenance": "CBIC Notification Clause"},
+    {"type": "HSN_TAXED_AT", "source_node": "HSN", "target_node": "GST_Rate", "provenance": "CBIC Tax Rate Schedule"},
+    {"type": "HSN_GOVERNED_BY", "source_node": "HSN", "target_node": "GST_Rule", "provenance": "CBIC Notification Entry"},
+    {"type": "RULE_DEFINED_IN", "source_node": "GST_Rule", "target_node": "Notification", "provenance": "CBIC Official Gazette"},
+    {"type": "RULE_EFFECTIVE_FROM", "source_node": "GST_Rule", "target_node": "Notification", "provenance": "CBIC Effective Date"},
+    {"type": "RULE_EFFECTIVE_TO", "source_node": "GST_Rule", "target_node": "Notification", "provenance": "CBIC Expiry Date"},
+    {"type": "SOURCE_SUPPORTS_RULE", "source_node": "Source", "target_node": "GST_Rule", "provenance": "Authoritative Document Provenance"}
+  ]
+}

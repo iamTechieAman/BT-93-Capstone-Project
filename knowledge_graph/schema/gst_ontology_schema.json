@@ -1,0 +1,20 @@
+{
+  "ontology_name": "Smart GST HSN Knowledge Graph",
+  "version": "2.4.0",
+  "node_labels": [
+    "Product",
+    "Material",
+    "Chapter",
+    "Heading",
+    "GST_Rate",
+    "Notification"
+  ],
+  "relationship_types": [
+    "IS_A",
+    "MADE_OF",
+    "BELONGS_TO_CHAPTER",
+    "CLASSIFIED_UNDER",
+    "TAXED_AT",
+    "GOVERNED_BY"
+  ]
+}

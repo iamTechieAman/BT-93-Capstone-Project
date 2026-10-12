@@ -1,0 +1,23 @@
+[
+  {
+    "id": "sample-1",
+    "product_name": "Leather Jacket with Zip",
+    "expected_hsn": "4203",
+    "expected_rate": 18.0,
+    "confidence_target": 96.0
+  },
+  {
+    "id": "sample-2",
+    "product_name": "Solar Panel 400W Monocrystalline",
+    "expected_hsn": "8541",
+    "expected_rate": 12.0,
+    "confidence_target": 94.0
+  },
+  {
+    "id": "sample-3",
+    "product_name": "Raw Unroasted Organic Coffee Beans",
+    "expected_hsn": "0901",
+    "expected_rate": 0.0,
+    "confidence_target": 98.0
+  }
+]
