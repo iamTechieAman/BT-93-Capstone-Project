@@ -1,0 +1,12 @@
+# Global owners
+* @amankumar
+
+# Frontend
+/apps/web/ @amankumar
+
+# Backend API & Domain Services
+/apps/api/ @amankumar
+
+# Infra & CI/CD
+/infra/ @amankumar
+/.github/ @amankumar

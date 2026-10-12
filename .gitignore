@@ -1,0 +1,74 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build artifacts
+dist/
+build/
+out/
+apps/web/dist/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Testing & Coverage
+.pytest_cache/
+apps/api/.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+apps/api/coverage.xml
+htmlcov/
+test-results/
+playwright-report/
+blob-report/
+.mypy_cache/
+.ruff_cache/
+
+# Databases & local state
+*.db
+*.sqlite
+*.sqlite3
+smart_gst.db
+apps/api/smart_gst.db
+pgdata/
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE & Editor artifacts
+.idea/
+.vscode/
+*.sublime-workspace
+*.swp
+*.swo
+
+# AI agent & IDE assistant configs
+.agents/
+.gemini/
+.cursor/
+.windsurf/
+.claude/
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+
+# Local academic materials (kept local, uncommitted)
+local_academic_docs/

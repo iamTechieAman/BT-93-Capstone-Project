@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist for dev fixtures and sample vectors"
+paths = [
+  '''packages/contracts/gstin_test_vectors\.json''',
+  '''apps/web/src/data/presetProducts\.js''',
+  '''apps/web/src/data/sampleData\.js'''
+]
