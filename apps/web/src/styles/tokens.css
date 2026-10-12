@@ -1,0 +1,151 @@
+/*
+ * Design Tokens — Smart GST
+ * Reference: Zoho Books / ClearTax / Stripe Dashboard feel
+ * Light theme default; dark theme applied via [data-theme="dark"] on <html>
+ */
+
+:root {
+  /* ── Surface ── */
+  --color-bg:          #F6F7F9;
+  --bg:                #F6F7F9;
+  --color-surface:     #FFFFFF;
+  --surface:           #FFFFFF;
+  --surface-hover:     #F9FAFB;
+  --color-surface-2:   #F9FAFB;
+  --color-border:      #E4E7EC;
+  --border:            #E4E7EC;
+  --color-border-strong: #D0D5DD;
+
+  /* ── Text ── */
+  --color-text:        #101828;
+  --text-main:         #101828;
+  --color-text-muted:  #667085;
+  --text-muted:        #667085;
+  --color-text-placeholder: #98A2B3;
+
+  /* ── Accent / Primary ── */
+  --color-primary:         #2349D1;
+  --primary:               #2349D1;
+  --color-primary-hover:   #1B3DB0;
+  --primary-hover:         #1B3DB0;
+  --color-primary-subtle:  #EEF2FF;
+  --primary-subtle:        #EEF2FF;
+  --color-primary-subtle-border: #C7D2FE;
+
+  /* ── Semantic ── */
+  --color-success:         #12805C;
+  --success:               #12805C;
+  --color-success-subtle:  #ECFDF3;
+  --success-subtle:        #ECFDF3;
+  --color-success-subtle-border: #A6F4C5;
+  --color-success-text:    #067647;
+
+  --color-warning:         #B54708;
+  --warning:               #B54708;
+  --color-warning-subtle:  #FFFAEB;
+  --warning-subtle:        #FFFAEB;
+  --color-warning-subtle-border: #FEDF89;
+  --color-warning-text:    #93370D;
+
+  --color-danger:          #C0362C;
+  --danger:                #C0362C;
+  --color-danger-subtle:   #FEF3F2;
+  --danger-subtle:         #FEF3F2;
+  --color-danger-subtle-border: #FECDCA;
+  --color-danger-text:     #B42318;
+
+  --color-info:            #2349D1;
+  --color-info-subtle:     #EEF2FF;
+  --color-info-subtle-border: #C7D2FE;
+  --color-info-text:       #3538CD;
+
+  /* ── Shadow ── */
+  --shadow-xs:  0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm:  0 1px 3px rgba(16, 24, 40, 0.10), 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md:  0 4px 8px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.04);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.04);
+
+  /* ── Radius ── */
+  --radius-sm:  4px;
+  --radius:     6px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+
+  /* ── Spacing ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+
+  /* ── Typography ── */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+  /* ── Transition ── */
+  --transition: 120ms ease;
+
+  /* ── Sidebar ── */
+  --sidebar-width: 232px;
+  --sidebar-collapsed-width: 56px;
+  --topbar-height: 56px;
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"], .dark {
+  --color-bg:          #0E1116;
+  --bg:                #0E1116;
+  --color-surface:     #151A21;
+  --surface:           #151A21;
+  --surface-hover:     #1C2330;
+  --color-surface-2:   #1C2330;
+  --color-border:      #262D38;
+  --border:            #262D38;
+  --color-border-strong: #374151;
+
+  --color-text:        #E6E8EB;
+  --text-main:         #E6E8EB;
+  --color-text-muted:  #98A2B3;
+  --text-muted:        #98A2B3;
+  --color-text-placeholder: #6B7280;
+
+  --color-primary:         #6C8CFF;
+  --primary:               #6C8CFF;
+  --color-primary-hover:   #8BA3FF;
+  --primary-hover:         #8BA3FF;
+  --color-primary-subtle:  #1E2D4D;
+  --primary-subtle:        #1E2D4D;
+  --color-primary-subtle-border: #2E4A8A;
+
+  --color-success:         #34D399;
+  --success:               #34D399;
+  --color-success-subtle:  #052E16;
+  --success-subtle:        #052E16;
+  --color-success-subtle-border: #065F46;
+  --color-success-text:    #34D399;
+
+  --color-warning:         #F59E0B;
+  --warning:               #F59E0B;
+  --color-warning-subtle:  #1C1400;
+  --warning-subtle:        #1C1400;
+  --color-warning-subtle-border: #3D2B00;
+  --color-warning-text:    #FCD34D;
+
+  --color-danger:          #F87171;
+  --danger:                #F87171;
+  --color-danger-subtle:   #2D1116;
+  --danger-subtle:         #2D1116;
+  --color-danger-subtle-border: #5C1E1E;
+  --color-danger-text:     #F87171;
+
+  --color-info:            #6C8CFF;
+  --color-info-subtle:     #1E2D4D;
+  --color-info-subtle-border: #2E4A8A;
+  --color-info-text:       #8BA3FF;
+
+  --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-sm:   0 1px 3px rgba(0, 0, 0, 0.50), 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-md:   0 4px 8px rgba(0, 0, 0, 0.50), 0 2px 4px rgba(0, 0, 0, 0.30);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.30);
+}
